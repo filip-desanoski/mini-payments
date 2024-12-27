@@ -4,8 +4,6 @@ import dev.desan.minipayments.location.dto.LocationDTO;
 import dev.desan.minipayments.location.mapper.LocationMapper;
 import dev.desan.minipayments.location.model.Location;
 import dev.desan.minipayments.location.repository.LocationRepository;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,13 +17,16 @@ public class LocationService {
     private final LocationRepository locationRepository;
     private final LocationMapper locationMapper;
 
-    @Autowired
     public LocationService(LocationRepository locationRepository, LocationMapper locationMapper) {
         this.locationRepository = locationRepository;
         this.locationMapper = locationMapper;
     }
 
     public LocationDTO createLocation(LocationDTO locationDTO) {
+        Optional<Location> existingLocation = locationRepository.findLocationByName(locationDTO.locationName());
+        if (existingLocation.isPresent()) {
+            return null;
+        }
         Location location = locationMapper.dtoToEntity(locationDTO);
         location = locationRepository.save(location);
         return locationMapper.entityToDto(location);
@@ -36,8 +37,8 @@ public class LocationService {
         return location.map(locationMapper::entityToDto).orElse(null);
     }
 
-    public LocationDTO getLocationByName(String name) {
-        Optional<Location> location = locationRepository.getLocationByName(name);
+    public LocationDTO getLocationByName(String locationName) {
+        Optional<Location> location = locationRepository.findLocationByName(locationName);
         return location.map(locationMapper::entityToDto).orElse(null);
     }
 
@@ -50,7 +51,7 @@ public class LocationService {
         Optional<Location> existingLocation = locationRepository.findById(uuid);
         if (existingLocation.isPresent()) {
             Location location = existingLocation.get();
-            location.setName(locationDTO.name());
+            location.setName(locationDTO.locationName());
             location = locationRepository.save(location);
             return locationMapper.entityToDto(location);
         }

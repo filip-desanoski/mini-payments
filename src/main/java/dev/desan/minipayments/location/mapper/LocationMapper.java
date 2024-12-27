@@ -4,6 +4,7 @@ import dev.desan.minipayments.infrastructure.mapper.GeneralMapper;
 import dev.desan.minipayments.location.dto.LocationDTO;
 import dev.desan.minipayments.location.model.Location;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface LocationMapper extends GeneralMapper<LocationDTO, Location> {
@@ -12,5 +13,8 @@ public interface LocationMapper extends GeneralMapper<LocationDTO, Location> {
     LocationDTO entityToDto(Location location);
 
     @Override
+    @Mapping(target = "uuid", ignore = true)
+    @Mapping(target = "createdOn", ignore = true)
+    @Mapping(target = "updatedOn", ignore = true)
     Location dtoToEntity(LocationDTO locationDTO);
 }

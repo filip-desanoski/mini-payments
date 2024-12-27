@@ -10,9 +10,9 @@ public record PaymentDTO(
         @NotBlank(message = "The amount is mandatory")
         BigDecimal amount,
 
-        @NotBlank(message = "The payment type is required")
+        @NotBlank(message = "Payment type is mandatory")
         PaymentType paymentType,
 
         @NotBlank(message = "Customer UUID is mandatory")
-        CustomerDTO customer) {
+        CustomerDTO customerDTO) {
 }

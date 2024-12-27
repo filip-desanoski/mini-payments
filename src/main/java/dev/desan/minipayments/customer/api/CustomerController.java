@@ -27,7 +27,9 @@ public class CustomerController {
     @PostMapping
     public ResponseEntity<CustomerDTO> createCustomer(@Valid @RequestBody CustomerDTO customerDTO) {
         CustomerDTO createdCustomer = customerService.createCustomer(customerDTO);
-        return new ResponseEntity<>(createdCustomer, HttpStatus.CREATED);
+        return createdCustomer != null ?
+                new ResponseEntity<>(createdCustomer, HttpStatus.CREATED) :
+                new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/{uuid}")
@@ -46,6 +48,16 @@ public class CustomerController {
         return customerDTO != null ?
                 new ResponseEntity<>(customerDTO, HttpStatus.OK) :
                 new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/location/{location}")
+    public Page<CustomerDTO> getCustomersByLocation(@PathVariable String location, Pageable pageable) {
+        return customerService.getCustomersByLocation(location, pageable);
+    }
+
+    @PatchMapping("/{uuid}")
+    public CustomerDTO patchUpdateCustomer(@PathVariable UUID uuid, @RequestBody CustomerDTO customerDTO) {
+        return customerService.patchUpdateCustomer(uuid, customerDTO);
     }
 
     @GetMapping

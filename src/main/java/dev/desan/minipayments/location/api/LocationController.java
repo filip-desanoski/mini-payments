@@ -1,13 +1,11 @@
 package dev.desan.minipayments.location.api;
 
-import dev.desan.minipayments.customer.dto.CustomerDTO;
 import dev.desan.minipayments.infrastructure.EndPoints;
 import dev.desan.minipayments.location.dto.LocationDTO;
 import dev.desan.minipayments.location.service.LocationService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,19 +27,21 @@ public class LocationController {
     @PostMapping
     public ResponseEntity<LocationDTO> createLocation(@Valid @RequestBody LocationDTO locationDTO) {
         LocationDTO createdLocation = locationService.createLocation(locationDTO);
-        return new ResponseEntity<>(createdLocation, HttpStatus.CREATED);
+        return createdLocation != null ?
+                new ResponseEntity<>(createdLocation, HttpStatus.CREATED) :
+                new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/{uuid}")
-    public ResponseEntity<LocationDTO> getLocationById(@PathVariable UUID uuid) {
-        LocationDTO locationDTO = locationService.getLocationById(uuid);
-        return locationDTO != null ?
-                new ResponseEntity<>(locationDTO, HttpStatus.OK) :
+    public ResponseEntity<LocationDTO> getLocationByUuid(@PathVariable UUID uuid) {
+        LocationDTO customerDTO = locationService.getLocationById(uuid);
+        return customerDTO != null ?
+                new ResponseEntity<>(customerDTO, HttpStatus.OK) :
                 new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/location-name")
-    public ResponseEntity<LocationDTO> getLocationByName(@RequestParam String locationName) {
+    @GetMapping("/full-name")
+    public ResponseEntity<LocationDTO> getLocationName(@Valid @RequestParam String locationName) {
         LocationDTO locationDTO = locationService.getLocationByName(locationName);
         return locationDTO != null ?
                 new ResponseEntity<>(locationDTO, HttpStatus.OK) :
@@ -50,12 +50,12 @@ public class LocationController {
 
     @GetMapping
     public ResponseEntity<Page<LocationDTO>> getAllLocations(Pageable pageable) {
-        Page<LocationDTO> locationDTOS = locationService.getAllLocations(pageable);
-        return new ResponseEntity<>(locationDTOS, HttpStatus.OK);
+        Page<LocationDTO> locationDTOs = locationService.getAllLocations(pageable);
+        return new ResponseEntity<>(locationDTOs, HttpStatus.OK);
     }
 
     @PutMapping("/{uuid}")
-    public ResponseEntity<LocationDTO> updateLocation(@PathVariable UUID uuid, @Valid @RequestBody LocationDTO locationDTO) {
+    public ResponseEntity<LocationDTO> updateCustomer(@PathVariable UUID uuid, @Valid @RequestBody LocationDTO locationDTO) {
         LocationDTO updatedLocation = locationService.updateLocation(uuid, locationDTO);
         return updatedLocation != null ?
                 new ResponseEntity<>(updatedLocation, HttpStatus.OK) :
@@ -63,8 +63,8 @@ public class LocationController {
     }
 
     @DeleteMapping("/{uuid}")
-    public ResponseEntity<Void> deleteLocation(@PathVariable UUID uuid) {
+    public ResponseEntity<Void> deleteCustomer(@PathVariable UUID uuid) {
         locationService.deleteLocation(uuid);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.noContent().build();
     }
 }
