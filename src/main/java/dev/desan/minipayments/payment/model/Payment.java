@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.UUID;
 
 @Data
@@ -32,11 +33,20 @@ public class Payment {
     private PaymentType paymentType;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id", nullable = false)
+    @JoinColumn(name = "customer_uuid", nullable = false)
     private Customer customer;
+
+    @Column(name = "updated_on", nullable = false)
+    private LocalDateTime updatedOn;
 
     @PrePersist
     public void prePersist() {
-        this.paymentDateTime = LocalDateTime.now();
+        this.paymentDateTime = LocalDateTime.now(ZoneOffset.UTC);
+        this.updatedOn = LocalDateTime.now(ZoneOffset.UTC);
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedOn = LocalDateTime.now(ZoneOffset.UTC);
     }
 }

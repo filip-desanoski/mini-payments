@@ -4,6 +4,7 @@ import dev.desan.minipayments.customer.dto.CustomerDTO;
 import dev.desan.minipayments.customer.mapper.CustomerMapper;
 import dev.desan.minipayments.customer.model.Customer;
 import dev.desan.minipayments.customer.repository.CustomerRepository;
+import dev.desan.minipayments.location.dto.LocationDTO;
 import dev.desan.minipayments.location.mapper.LocationMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,6 +34,11 @@ public class CustomerService {
 
     public CustomerDTO getCustomerById(UUID uuid) {
         Optional<Customer> customer = customerRepository.findById(uuid);
+        return customer.map(customerMapper::entityToDto).orElse(null);
+    }
+
+    public CustomerDTO getCustomerByFullName(String firstName, String lastName) {
+        Optional<Customer> customer = customerRepository.getCustomerByFullName(firstName, lastName);
         return customer.map(customerMapper::entityToDto).orElse(null);
     }
 

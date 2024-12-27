@@ -24,7 +24,7 @@ public class Customer extends BaseEntity {
     private String lastName;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "location_id", nullable = false)
+    @JoinColumn(name = "location_uuid", nullable = false)
     private Location location;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
