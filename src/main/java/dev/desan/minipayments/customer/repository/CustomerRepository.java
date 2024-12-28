@@ -11,7 +11,8 @@ import java.util.UUID;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, UUID> {
-    Optional<Customer> findCustomerByFullName(String firstName, String lastName);
 
-    Page<Customer> findCustomersByLocation(String location, Pageable pageable);
+    Optional<Customer> findCustomerByFirstNameAndLastName(String firstName, String lastName);
+
+    Page<Customer> findCustomersByLocationName(String location, Pageable pageable);
 }

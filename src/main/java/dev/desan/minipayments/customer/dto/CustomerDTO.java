@@ -1,6 +1,7 @@
 package dev.desan.minipayments.customer.dto;
 
 import dev.desan.minipayments.location.dto.LocationDTO;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 
 public record CustomerDTO(
@@ -10,6 +11,6 @@ public record CustomerDTO(
         @NotBlank(message = "Last name is mandatory")
         String lastName,
 
-        @NotBlank(message = "Name of location is mandatory")
+        @Valid
         LocationDTO locationName) {
 }

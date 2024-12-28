@@ -26,7 +26,7 @@ public class CustomerService {
     }
 
     public CustomerDTO createCustomer(CustomerDTO customerDTO) {
-        Optional<Customer> existingCustomer = customerRepository.findCustomerByFullName(customerDTO.firstName(), customerDTO.lastName());
+        Optional<Customer> existingCustomer = customerRepository.findCustomerByFirstNameAndLastName(customerDTO.firstName(), customerDTO.lastName());
         if (existingCustomer.isPresent()) {
             return null;
         }
@@ -41,12 +41,12 @@ public class CustomerService {
     }
 
     public CustomerDTO getCustomerByFullName(String firstName, String lastName) {
-        Optional<Customer> customer = customerRepository.findCustomerByFullName(firstName,lastName);
+        Optional<Customer> customer = customerRepository.findCustomerByFirstNameAndLastName(firstName,lastName);
         return customer.map(customerMapper::entityToDto).orElse(null);
     }
 
     public Page<CustomerDTO> getCustomersByLocation(String location, Pageable pageable) {
-        Page<Customer> customersPage = customerRepository.findCustomersByLocation(location, pageable);
+        Page<Customer> customersPage = customerRepository.findCustomersByLocationName(location, pageable);
         return customersPage.map(customerMapper::entityToDto);
     }
 
