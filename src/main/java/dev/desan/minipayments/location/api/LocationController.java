@@ -40,8 +40,8 @@ public class LocationController {
                 new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/full-name")
-    public ResponseEntity<LocationDTO> getLocationName(@Valid @RequestParam String locationName) {
+    @GetMapping("/location-name")
+    public ResponseEntity<LocationDTO> getLocationByName(@Valid @RequestParam String locationName) {
         LocationDTO locationDTO = locationService.getLocationByName(locationName);
         return locationDTO != null ?
                 new ResponseEntity<>(locationDTO, HttpStatus.OK) :
@@ -55,7 +55,7 @@ public class LocationController {
     }
 
     @PutMapping("/{uuid}")
-    public ResponseEntity<LocationDTO> updateCustomer(@PathVariable UUID uuid, @Valid @RequestBody LocationDTO locationDTO) {
+    public ResponseEntity<LocationDTO> updateLocation(@PathVariable UUID uuid, @Valid @RequestBody LocationDTO locationDTO) {
         LocationDTO updatedLocation = locationService.updateLocation(uuid, locationDTO);
         return updatedLocation != null ?
                 new ResponseEntity<>(updatedLocation, HttpStatus.OK) :
@@ -63,7 +63,7 @@ public class LocationController {
     }
 
     @DeleteMapping("/{uuid}")
-    public ResponseEntity<Void> deleteCustomer(@PathVariable UUID uuid) {
+    public ResponseEntity<Void> deleteLocation(@PathVariable UUID uuid) {
         locationService.deleteLocation(uuid);
         return ResponseEntity.noContent().build();
     }

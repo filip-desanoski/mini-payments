@@ -13,11 +13,15 @@ import org.mapstruct.Mapping;
 public interface CustomerMapper extends GeneralMapper<CustomerDTO, Customer> {
 
     @Override
+    @Mapping(target = "locationName", source = "location")
     CustomerDTO entityToDto(Customer customer);
 
     @Override
     @Mapping(target = "uuid", ignore = true)
     @Mapping(target = "createdOn", ignore = true)
     @Mapping(target = "updatedOn", ignore = true)
+    @Mapping(target = "balance", ignore = true)
+    @Mapping(target = "payments", ignore = true)
+    @Mapping(target = "location", source = "locationName")
     Customer dtoToEntity(CustomerDTO dto);
 }

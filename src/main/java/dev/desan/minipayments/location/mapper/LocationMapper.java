@@ -10,11 +10,14 @@ import org.mapstruct.Mapping;
 public interface LocationMapper extends GeneralMapper<LocationDTO, Location> {
 
     @Override
+    @Mapping(target = "locationName", source = "name")
     LocationDTO entityToDto(Location location);
 
     @Override
     @Mapping(target = "uuid", ignore = true)
     @Mapping(target = "createdOn", ignore = true)
     @Mapping(target = "updatedOn", ignore = true)
+    @Mapping(target = "customers", ignore = true)
+    @Mapping(target = "name", source = "locationName")
     Location dtoToEntity(LocationDTO locationDTO);
 }

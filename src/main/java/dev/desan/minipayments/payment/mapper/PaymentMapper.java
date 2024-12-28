@@ -11,11 +11,13 @@ import org.mapstruct.Mapping;
 public interface PaymentMapper extends GeneralMapper<PaymentDTO, Payment> {
 
     @Override
+    @Mapping(target = "customerDTO", source = "customer")
     PaymentDTO entityToDto(Payment payment);
 
     @Override
     @Mapping(target = "uuid", ignore = true)
     @Mapping(target = "paymentDateTime", ignore = true)
     @Mapping(target = "updatedOn", ignore = true)
+    @Mapping(target = "customer", source = "customerDTO")
     Payment dtoToEntity(PaymentDTO paymentDTO);
 }

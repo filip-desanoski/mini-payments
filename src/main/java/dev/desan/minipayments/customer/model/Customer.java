@@ -6,10 +6,13 @@ import dev.desan.minipayments.payment.model.Payment;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,6 +25,9 @@ public class Customer extends BaseEntity {
 
     @Column(name = "last_name", nullable = false)
     private String lastName;
+
+    @Column(scale = 2)
+    private BigDecimal balance;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "location_uuid", nullable = false)
