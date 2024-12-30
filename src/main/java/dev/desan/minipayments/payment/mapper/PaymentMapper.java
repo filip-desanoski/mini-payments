@@ -7,17 +7,20 @@ import dev.desan.minipayments.payment.model.Payment;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.UUID;
+
 @Mapper(componentModel = "spring", uses = CustomerMapper.class)
 public interface PaymentMapper extends GeneralMapper<PaymentDTO, Payment> {
 
     @Override
-    @Mapping(target = "customerDTO", source = "customer")
+    @Mapping(target = "customerPaymentDto", source = "customer")
     PaymentDTO entityToDto(Payment payment);
 
     @Override
     @Mapping(target = "uuid", ignore = true)
-    @Mapping(target = "paymentDateTime", ignore = true)
+    @Mapping(target = "createdOn", ignore = true)
     @Mapping(target = "updatedOn", ignore = true)
-    @Mapping(target = "customer", source = "customerDTO")
+    @Mapping(target = "customer", source = "customerPaymentDto")
     Payment dtoToEntity(PaymentDTO paymentDTO);
+
 }

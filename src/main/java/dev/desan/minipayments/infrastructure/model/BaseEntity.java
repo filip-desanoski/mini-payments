@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Date;
 import java.util.UUID;
 
 @Getter
@@ -17,21 +17,17 @@ public abstract class BaseEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID uuid;
 
-    @Column(name = "created_on", nullable = false, updatable = false)
-    private LocalDateTime createdOn;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_on", updatable = false)
+    private Date createdOn;
 
-    @Column(name = "updated_on", nullable = false)
-    private LocalDateTime updatedOn;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "updated_on", updatable = false)
+    private Date updatedOn;
 
     @PrePersist
-    protected void onCreate() {
-        LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
-        this.createdOn = now;
-        this.updatedOn = now;
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        this.updatedOn = LocalDateTime.now(ZoneOffset.UTC);
+    public void init() {
+        createdOn = Date.from(java.time.ZonedDateTime.now(ZoneOffset.UTC).toInstant());
+        updatedOn = Date.from(java.time.ZonedDateTime.now(ZoneOffset.UTC).toInstant());
     }
 }

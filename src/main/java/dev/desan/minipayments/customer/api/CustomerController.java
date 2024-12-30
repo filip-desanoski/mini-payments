@@ -5,12 +5,12 @@ import dev.desan.minipayments.customer.service.CustomerService;
 import dev.desan.minipayments.infrastructure.EndPoints;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -50,9 +50,10 @@ public class CustomerController {
                 new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/location/{location}")
-    public Page<CustomerDTO> getCustomersByLocation(@PathVariable String location, Pageable pageable) {
-        return customerService.getCustomersByLocation(location, pageable);
+    @GetMapping("/location/{city}")
+    public ResponseEntity<List<CustomerDTO>> getCustomersByCity(@PathVariable String city, Pageable pageable) {
+        List<CustomerDTO> customerDTOS = customerService.getCustomersByCity(city, pageable).getContent();
+        return new ResponseEntity<>(customerDTOS, HttpStatus.OK);
     }
 
     @PatchMapping("/{uuid}")
@@ -61,8 +62,8 @@ public class CustomerController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<CustomerDTO>> getAllCustomers(Pageable pageable) {
-        Page<CustomerDTO> customerDTOs = customerService.getAllCustomers(pageable);
+    public ResponseEntity<List<CustomerDTO>> getAllCustomers(Pageable pageable) {
+        List<CustomerDTO> customerDTOs = customerService.getAllCustomers(pageable).getContent();
         return new ResponseEntity<>(customerDTOs, HttpStatus.OK);
     }
 

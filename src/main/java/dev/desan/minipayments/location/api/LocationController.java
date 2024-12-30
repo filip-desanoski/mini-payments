@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -40,17 +41,17 @@ public class LocationController {
                 new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/location-name")
-    public ResponseEntity<LocationDTO> getLocationByName(@Valid @RequestParam String locationName) {
-        LocationDTO locationDTO = locationService.getLocationByName(locationName);
+    @GetMapping("/city")
+    public ResponseEntity<LocationDTO> getLocationByCity(@Valid @RequestParam String cityName) {
+        LocationDTO locationDTO = locationService.getLocationByCity(cityName);
         return locationDTO != null ?
                 new ResponseEntity<>(locationDTO, HttpStatus.OK) :
                 new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping
-    public ResponseEntity<Page<LocationDTO>> getAllLocations(Pageable pageable) {
-        Page<LocationDTO> locationDTOs = locationService.getAllLocations(pageable);
+    public ResponseEntity<List<LocationDTO>> getAllLocations(Pageable pageable) {
+        List<LocationDTO> locationDTOs = locationService.getAllLocations(pageable).getContent();
         return new ResponseEntity<>(locationDTOs, HttpStatus.OK);
     }
 

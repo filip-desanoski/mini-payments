@@ -9,5 +9,5 @@ import java.util.UUID;
 
 @Repository
 public interface LocationRepository extends JpaRepository<Location, UUID> {
-    Optional<Location> findLocationByName(String locationName);
+    Optional<Location> findLocationByCity(String city);
 }

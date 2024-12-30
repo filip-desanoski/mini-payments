@@ -10,7 +10,7 @@ import org.mapstruct.Mapping;
 public interface LocationMapper extends GeneralMapper<LocationDTO, Location> {
 
     @Override
-    @Mapping(target = "locationName", source = "name")
+    @Mapping(target = "city", source = "city")
     LocationDTO entityToDto(Location location);
 
     @Override
@@ -18,6 +18,6 @@ public interface LocationMapper extends GeneralMapper<LocationDTO, Location> {
     @Mapping(target = "createdOn", ignore = true)
     @Mapping(target = "updatedOn", ignore = true)
     @Mapping(target = "customers", ignore = true)
-    @Mapping(target = "name", source = "locationName")
+    @Mapping(target = "city", source = "city")
     Location dtoToEntity(LocationDTO locationDTO);
 }

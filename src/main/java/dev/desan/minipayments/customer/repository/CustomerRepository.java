@@ -14,5 +14,5 @@ public interface CustomerRepository extends JpaRepository<Customer, UUID> {
 
     Optional<Customer> findCustomerByFirstNameAndLastName(String firstName, String lastName);
 
-    Page<Customer> findCustomersByLocationName(String location, Pageable pageable);
+    Page<Customer> findCustomersByLocation_City(String city, Pageable pageable);
 }

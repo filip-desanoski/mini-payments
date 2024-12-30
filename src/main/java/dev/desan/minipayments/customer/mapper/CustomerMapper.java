@@ -1,19 +1,19 @@
 package dev.desan.minipayments.customer.mapper;
 
 import dev.desan.minipayments.customer.dto.CustomerDTO;
+import dev.desan.minipayments.customer.dto.CustomerPaymentDto;
 import dev.desan.minipayments.customer.model.Customer;
 import dev.desan.minipayments.infrastructure.mapper.GeneralMapper;
 import dev.desan.minipayments.location.mapper.LocationMapper;
-import dev.desan.minipayments.payment.mapper.PaymentMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 
-@Mapper(componentModel = "spring", uses = {PaymentMapper.class, LocationMapper.class})
+@Mapper(componentModel = "spring", uses = LocationMapper.class)
 public interface CustomerMapper extends GeneralMapper<CustomerDTO, Customer> {
 
     @Override
-    @Mapping(target = "locationName", source = "location")
+    @Mapping(target = "locationCity", source = "location.city")
     CustomerDTO entityToDto(Customer customer);
 
     @Override
@@ -22,6 +22,15 @@ public interface CustomerMapper extends GeneralMapper<CustomerDTO, Customer> {
     @Mapping(target = "updatedOn", ignore = true)
     @Mapping(target = "balance", ignore = true)
     @Mapping(target = "payments", ignore = true)
-    @Mapping(target = "location", source = "locationName")
+    @Mapping(target = "location.city", source = "locationCity")
     Customer dtoToEntity(CustomerDTO dto);
+
+    @Mapping(target = "uuid", source = "uuid")
+    @Mapping(target = "firstName", source = "firstName")
+    @Mapping(target = "lastName", source = "lastName")
+    CustomerPaymentDto entityToCustomerPaymentDto(Customer customer);
+
+    @Mapping(target = "uuid", source = "uuid")
+    Customer customerPaymentDtoToEntity(CustomerPaymentDto customerPaymentDto);
 }
+

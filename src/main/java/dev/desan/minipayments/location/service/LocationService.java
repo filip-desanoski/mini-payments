@@ -23,7 +23,7 @@ public class LocationService {
     }
 
     public LocationDTO createLocation(LocationDTO locationDTO) {
-        Optional<Location> existingLocation = locationRepository.findLocationByName(locationDTO.locationName());
+        Optional<Location> existingLocation = locationRepository.findLocationByCity(locationDTO.city());
         if (existingLocation.isPresent()) {
             return null;
         }
@@ -37,8 +37,8 @@ public class LocationService {
         return location.map(locationMapper::entityToDto).orElse(null);
     }
 
-    public LocationDTO getLocationByName(String locationName) {
-        Optional<Location> location = locationRepository.findLocationByName(locationName);
+    public LocationDTO getLocationByCity(String cityName) {
+        Optional<Location> location = locationRepository.findLocationByCity(cityName);
         return location.map(locationMapper::entityToDto).orElse(null);
     }
 
@@ -51,7 +51,7 @@ public class LocationService {
         Optional<Location> existingLocation = locationRepository.findById(uuid);
         if (existingLocation.isPresent()) {
             Location location = existingLocation.get();
-            location.setName(locationDTO.locationName());
+            location.setCity(locationDTO.city());
             location = locationRepository.save(location);
             return locationMapper.entityToDto(location);
         }
