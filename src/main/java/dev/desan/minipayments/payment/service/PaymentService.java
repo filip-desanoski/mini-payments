@@ -1,7 +1,5 @@
 package dev.desan.minipayments.payment.service;
 
-import dev.desan.minipayments.customer.dto.CustomerPaymentDto;
-import dev.desan.minipayments.customer.mapper.CustomerMapper;
 import dev.desan.minipayments.customer.model.Customer;
 import dev.desan.minipayments.customer.repository.CustomerRepository;
 import dev.desan.minipayments.payment.dto.PaymentDTO;

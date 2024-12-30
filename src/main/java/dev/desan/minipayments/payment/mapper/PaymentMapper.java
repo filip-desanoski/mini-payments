@@ -7,8 +7,6 @@ import dev.desan.minipayments.payment.model.Payment;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import java.util.UUID;
-
 @Mapper(componentModel = "spring", uses = CustomerMapper.class)
 public interface PaymentMapper extends GeneralMapper<PaymentDTO, Payment> {
 
