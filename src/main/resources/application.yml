@@ -18,9 +18,9 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/mini-payments
-    username: postgres
-    password: desanoski
+    url: jdbc:postgresql://${HOST_DB}/${DB_NAME}
+    username: ${USERNAME_DB}
+    password: ${PASSWORD_DB}
 
 #  security:
 #    oauth2:
